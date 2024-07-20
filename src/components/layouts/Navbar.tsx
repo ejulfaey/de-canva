@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FileCheck, Redo, Undo } from "lucide-react";
 
-const Header = () => {
+const Navbar = () => {
     return (
         <div className="px-4 py-2 bg-primary text-primary-foreground">
             <div className="flex justify-between">
@@ -23,4 +23,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default Navbar;

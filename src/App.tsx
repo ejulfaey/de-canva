@@ -1,15 +1,19 @@
-import Header from "./layouts/header";
+import MiniSidebar from "./components/layouts/MiniSidebar";
+import Navbar from "./components/layouts/Navbar";
+import Sidebar from "./components/layouts/Sidebar";
 
 const App = () => {
   return (
-    <>
-      <Header />
-      <div className="h-screen">
-        <div className="h-full flex flex-col justify-center items-center">
-          <h1 className="text-2xl font-semibold tracking-wider">Kanvas</h1>
+    <div className="h-screen flex flex-col overflow-y-clip">
+      <Navbar />
+      <div className="flex-1 flex overflow-y-auto">
+        <MiniSidebar />
+        <Sidebar />
+        <div className="flex-1 flex flex-col bg-gray-100 justify-center items-center overflow-y-auto">
+          
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
