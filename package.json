@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.0",
     "@vitejs/plugin-react": "^4.3.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "konva": "^9.3.14",
     "lucide-react": "^0.411.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-konva": "^18.2.10",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
   },
