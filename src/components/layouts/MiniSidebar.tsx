@@ -25,7 +25,7 @@ const SIDEBAR_ICONS = [
 
 const MiniSidebar = () => {
     return (
-        <div className="h-full bg-gray-900 text-gray-400 flex flex-col space-y-4">
+        <div className="h-screen bg-gray-900 text-gray-400 flex flex-col space-y-4">
             {
                 SIDEBAR_ICONS.map(({ label, icon }, i: number) => (
                     <button key={i} className={`${i === 0 ? 'bg-gray-800' : 'bg-gray-900'} p-4 inline-flex flex-col items-center hover:bg-transparent hover:text-white`}>
