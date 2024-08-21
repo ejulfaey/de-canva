@@ -33,9 +33,15 @@ const Canvas = ({ containerSize, containerRef }: Props) => {
             if (selectedNode) {
                 transformer.nodes([selectedNode]);
                 transformer.getLayer()?.batchDraw();
+            } else {
+                selectShape(null); // Deselect shape if not found
             }
         }
-    }, [selectedShapeId]);
+        else if (transformer) {
+            transformer.nodes([]);
+        }
+
+    }, [selectedShapeId, shapes, selectShape]);
 
     return (
         <div

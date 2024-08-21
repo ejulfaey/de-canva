@@ -24,8 +24,20 @@ const useShapeAtom = () => {
 
     const removeShape = (id: string) => {
         // const filteredShapes: ShapeType[] = shapes.filter((_: ShapeType, i: number) => i === index);
-        const filteredShapes = shapes.filter((x) => id !== x.id);
-        setShapes(filteredShapes);
+        // const filteredShapes = shapes.filter((x) => id !== x.id);
+        // setShapes(filteredShapes);
+
+        setShapes((prevShapes) => {
+            // Find index of the shape to remove
+            const index = prevShapes.findIndex((shape) => shape.id === id);
+            if (index !== -1) {
+                // Remove the shape at the found index
+                const newShapes = prevShapes.slice();
+                newShapes.splice(index, 1);
+                return newShapes;
+            }
+            return prevShapes;
+        });
     }
 
     const editShape = (index: number, options: Partial<ShapeType>) => {
