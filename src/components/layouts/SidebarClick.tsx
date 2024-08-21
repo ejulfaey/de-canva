@@ -2,11 +2,11 @@
 import { ScrollArea } from "../ui/scroll-area";
 // import { Skeleton } from "../ui/skeleton";
 
-const Sidebar = () => {
+interface SidebarClickProps {
+    onShapeClick: (shapeType: string) => void;
+}
 
-    const handleDragStart = (event: React.DragEvent<HTMLDivElement>, shape: { type: string }) => {
-        event.dataTransfer.setData("shape", shape.type);
-    };
+const SidebarClick: React.FC<SidebarClickProps> = ({ onShapeClick }) => {
 
     const shapes = [
         { id: "circle", type: "circle" },
@@ -25,7 +25,7 @@ const Sidebar = () => {
                                 key={shape.id}
                                 className="w-full h-44 flex items-center justify-center border border-gray-500 rounded cursor-pointer"
                                 draggable
-                                onDragStart={(e) => handleDragStart(e, shape)}
+                                onClick={() => onShapeClick(shape.type)}
                             >
                                 {shape.type}
                             </div>
@@ -38,4 +38,4 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+export default SidebarClick;

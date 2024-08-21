@@ -1,49 +1,50 @@
 import React, { useState, useRef } from "react";
 import { Stage, Layer, Circle, Rect, Ellipse, Transformer } from "react-konva";
 import Konva from "konva";
+import useShapeAtom from "@/hooks/useShapeAtom";
 
+interface Props {
+    containerSize: { width: number; height: number };
+    containerRef: React.RefObject<HTMLDivElement>;
+}
 
-const Canvas = () => {
-    const [shapes, setShapes] = useState<{ x: number, y: number, type: string, id: string }[]>([]);
+const Canvas = ({containerSize, containerRef}: Props) => {
     const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
     const stageRef = useRef<Konva.Stage>(null);
     const transformerRef = useRef<Konva.Transformer>(null);
-    const [containerWidth, setContainerWidth] = useState<number>(0);
-    const [containerHeight, setContainerHeight] = useState<number>(0);
+    const { shapes } = useShapeAtom();
 
+    // const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    //     event.preventDefault();
 
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
+    //     const stage = stageRef.current;
+    //     if (!stage) return;
 
-        const stage = stageRef.current;
-        if (!stage) return;
+    //     const point = stage.getPointerPosition();
+    //     const shapeType = event.dataTransfer.getData("shape");
 
-        const point = stage.getPointerPosition();
-        const shapeType = event.dataTransfer.getData("shape");
+    //     if (!point || !shapeType) return;
 
-        if (!point || !shapeType) return;
+    //     const newShape = {
+    //         x: containerWidth / 2,
+    //         y: containerHeight /2,
+    //         type: shapeType,
+    //         id: `${shapeType}-${shapes.length}`,
+    //     };
 
-        const newShape = {
-            x: containerWidth / 2,
-            y: containerHeight /2,
-            type: shapeType,
-            id: `${shapeType}-${shapes.length}`,
-        };
+    //     setShapes([...shapes, newShape]);
+    // };
 
-        setShapes([...shapes, newShape]);
-    };
+    // const handleSelect = (id: string) => {
+    //     setSelectedShapeId(id);
+    // };
 
-    const handleSelect = (id: string) => {
-        setSelectedShapeId(id);
-    };
-
-    const handleDelete = () => {
-        if (selectedShapeId) {
-            setShapes(shapes.filter(shape => shape.id !== selectedShapeId));
-            setSelectedShapeId(null);
-        }
-    };
+    // const handleDelete = () => {
+    //     if (selectedShapeId) {
+    //         setShapes(shapes.filter(shape => shape.id !== selectedShapeId));
+    //         setSelectedShapeId(null);
+    //     }
+    // };
 
     React.useEffect(() => {
         const transformer = transformerRef.current;
@@ -56,35 +57,17 @@ const Canvas = () => {
         }
     }, [selectedShapeId]);
 
-    React.useEffect(() => {
-        const updatePosition = () => {
-            if (containerRef.current) {
-                setContainerWidth(containerRef.current.offsetWidth);
-                setContainerHeight(containerRef.current.offsetHeight);
-
-            }
-        };
-
-        // Update width on initial render and when window resizes
-        updatePosition();
-        window.addEventListener('resize', updatePosition);
-
-        // Clean up event listener on component unmount
-        return () => window.removeEventListener('resize', updatePosition);
-    }, []);
-
-
     return (
         <div
             ref={containerRef}
-            onDrop={handleDrop}
+            // onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
             className="max-w-2xl w-full bg-white h-full"
         >
             <Stage
                 ref={stageRef}
                 className="bg-indigo-100"
-                width={containerWidth}
+                width={containerSize.width}
                 height={window.innerHeight}
                 onMouseDown={(e) => {
                     // Deselect when clicked on empty area
@@ -105,10 +88,10 @@ const Canvas = () => {
                                     radius={50}
                                     fill="blue"
                                     draggable
-                                    onClick={() => handleSelect(shape.id)}
+                                // onClick={() => handleSelect(shape.id)}
                                 />
                             );
-                        } else if (shape.type === "rectangle") {
+                        } else if (shape.type === "rect") {
                             return (
                                 <Rect
                                     key={shape.id}
@@ -119,7 +102,7 @@ const Canvas = () => {
                                     height={50}
                                     fill="red"
                                     draggable
-                                    onClick={() => handleSelect(shape.id)}
+                                // onClick={() => handleSelect(shape.id)}
                                 />
                             );
                         } else if (shape.type === "ellipse") {
@@ -133,7 +116,7 @@ const Canvas = () => {
                                     radiusY={50}
                                     fill="green"
                                     draggable
-                                    onClick={() => handleSelect(shape.id)}
+                                // onClick={() => handleSelect(shape.id)}
                                 />
                             );
                         }
@@ -144,7 +127,7 @@ const Canvas = () => {
                             ref={transformerRef}
                             rotateEnabled={true}
                             flipEnabled={true}
-                            onClick={handleDelete}
+                        // onClick={handleDelete}
                         />
                     )}
                 </Layer>
