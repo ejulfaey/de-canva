@@ -48,11 +48,9 @@ const App = () => {
       <div className="flex-1 flex overflow-y-auto">
         <MiniSidebar />
         <SidebarDragDrop containerSize={containerSize} />
-        {/* <SidebarClick onShapeClick={handleShapeClick} /> */}
 
         <div className="flex-1 flex flex-col bg-gray-100 justify-center items-center w-full h-full">
           <Canvas containerRef={containerRef} containerSize={containerSize} />
-          {/* <CanvaClick onShapeClick={handleShapeClick} /> */}
         </div>
       </div>
     </div>

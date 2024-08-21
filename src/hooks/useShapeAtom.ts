@@ -1,9 +1,15 @@
 import { ShapeAtom, ShapeType } from "@/lib/atom-service";
 import { useAtom } from "jotai/react";
+import { atom } from 'jotai';
+
+const selectedShapeIdAtom = atom<string | null>(null);
 
 const useShapeAtom = () => {
 
     const [shapes, setShapes] = useAtom(ShapeAtom);
+
+    const [selectedShapeId, setSelectedShapeId] = useAtom(selectedShapeIdAtom);
+
 
     const addShape = (shape: ShapeType) => {
         console.log('added shape')
@@ -16,32 +22,50 @@ const useShapeAtom = () => {
         ])
     }
 
-    const removeShape = (index: number) => {
-        const filteredShapes: ShapeType[] = shapes.filter((_: ShapeType, i: number) => i === index);
+    const removeShape = (id: string) => {
+        // const filteredShapes: ShapeType[] = shapes.filter((_: ShapeType, i: number) => i === index);
+        const filteredShapes = shapes.filter((x) => id !== x.id);
         setShapes(filteredShapes);
     }
 
     const editShape = (index: number, options: Partial<ShapeType>) => {
         setShapes((prevShapes) => {
-            const newShapes = [...prevShapes];
-            const shape = newShapes[index];
-
-            if (shape) {
-                newShapes[index] = {
-                    ...shape,
+            // Create a new array with the updated shape
+            const updatedShapes = [...prevShapes];
+            const shapeToUpdate = updatedShapes[index];
+    
+            if (shapeToUpdate) {
+                updatedShapes[index] = {
+                    type: shapeToUpdate.type,
                     ...options,
                 };
             }
-
-            return newShapes;
+            
+            console.log(updatedShapes[index], updatedShapes[index]?.width)
+            return updatedShapes;
         });
+    };
+    
+
+
+    const selectShape = (id: string | null) => {
+        setSelectedShapeId(id);
+    };
+
+    const clearShapes = () => {
+        setShapes([]);
+        setSelectedShapeId(null);
     }
+
 
     return {
         shapes,
         addShape,
         removeShape,
         editShape,
+        selectShape,
+        selectedShapeId,
+        clearShapes,
     }
 }
 

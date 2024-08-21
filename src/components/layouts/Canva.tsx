@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Stage, Layer, Circle, Rect, Ellipse, Transformer } from "react-konva";
 import Konva from "konva";
 import useShapeAtom from "@/hooks/useShapeAtom";
@@ -8,32 +8,12 @@ interface Props {
     containerRef: React.RefObject<HTMLDivElement>;
 }
 
-const Canvas = ({containerSize, containerRef}: Props) => {
-    const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
+const Canvas = ({ containerSize, containerRef }: Props) => {
+    // const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
     const stageRef = useRef<Konva.Stage>(null);
     const transformerRef = useRef<Konva.Transformer>(null);
-    const { shapes } = useShapeAtom();
+    const { shapes, selectShape, selectedShapeId, editShape } = useShapeAtom();
 
-    // const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    //     event.preventDefault();
-
-    //     const stage = stageRef.current;
-    //     if (!stage) return;
-
-    //     const point = stage.getPointerPosition();
-    //     const shapeType = event.dataTransfer.getData("shape");
-
-    //     if (!point || !shapeType) return;
-
-    //     const newShape = {
-    //         x: containerWidth / 2,
-    //         y: containerHeight /2,
-    //         type: shapeType,
-    //         id: `${shapeType}-${shapes.length}`,
-    //     };
-
-    //     setShapes([...shapes, newShape]);
-    // };
 
     // const handleSelect = (id: string) => {
     //     setSelectedShapeId(id);
@@ -71,13 +51,19 @@ const Canvas = ({containerSize, containerRef}: Props) => {
                 height={window.innerHeight}
                 onMouseDown={(e) => {
                     // Deselect when clicked on empty area
+                    //     if (e.target === e.target.getStage()) {
+                    //         setSelectedShapeId(null);
+                    //     }
+                    // }}
+
+                    // Deselect when clicked on empty area
                     if (e.target === e.target.getStage()) {
-                        setSelectedShapeId(null);
+                        selectShape(null);
                     }
                 }}
             >
                 <Layer>
-                    {shapes.map((shape) => {
+                    {shapes.map((shape, index) => {
                         if (shape.type === "circle") {
                             return (
                                 <Circle
@@ -85,10 +71,15 @@ const Canvas = ({containerSize, containerRef}: Props) => {
                                     id={shape.id}
                                     x={shape.x}
                                     y={shape.y}
-                                    radius={50}
+                                    radius={shape.radius as number}
+                                    scaleX={shape?.scaleX as number}
+                                    scaleY={shape?.scaleY as number}
+                                    rotation={shape?.rotation as number}
                                     fill="blue"
                                     draggable
-                                // onClick={() => handleSelect(shape.id)}
+                                    onClick={() => shape.id && selectShape(shape.id)}
+                                    onDragEnd={(e) => editShape(index, e.target.attrs)}
+                                    onTransformEnd={(e) => editShape(index, e.target.attrs)}
                                 />
                             );
                         } else if (shape.type === "rect") {
@@ -98,11 +89,16 @@ const Canvas = ({containerSize, containerRef}: Props) => {
                                     id={shape.id}
                                     x={shape.x}
                                     y={shape.y}
-                                    width={100}
-                                    height={50}
+                                    width={shape.width as number}
+                                    height={shape.height as number}
+                                    scaleX={shape?.scaleX as number}
+                                    scaleY={shape?.scaleY as number}
+                                    rotation={shape?.rotation as number}
                                     fill="red"
                                     draggable
-                                // onClick={() => handleSelect(shape.id)}
+                                    onClick={() => selectShape(shape?.id as string)}
+                                    onDragEnd={(e) => editShape(index, e.target.attrs)}
+                                    onTransformEnd={(e) => editShape(index, e.target.attrs)}
                                 />
                             );
                         } else if (shape.type === "ellipse") {
@@ -112,11 +108,17 @@ const Canvas = ({containerSize, containerRef}: Props) => {
                                     id={shape.id}
                                     x={shape.x}
                                     y={shape.y}
-                                    radiusX={100}
-                                    radiusY={50}
+                                    radiusX={shape.radiusX as number}
+                                    radiusY={shape.radiusY as number}
+                                    scaleX={shape?.scaleX as number}
+                                    scaleY={shape?.scaleY as number}
+                                    rotation={shape?.rotation as number}
                                     fill="green"
                                     draggable
-                                // onClick={() => handleSelect(shape.id)}
+                                    onClick={() => shape.id && selectShape(shape.id)}
+                                    onDragEnd={(e) => editShape(index, e.target.attrs)}
+                                    onTransformEnd={(e) => editShape(index, e.target.attrs)}
+
                                 />
                             );
                         }

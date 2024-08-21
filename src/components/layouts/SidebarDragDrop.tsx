@@ -1,7 +1,5 @@
-// import { Input } from "../ui/input";
 import { ScrollArea } from "../ui/scroll-area";
 import useShapeAtom from "@/hooks/useShapeAtom";
-// import { Skeleton } from "../ui/skeleton";
 
 type ShapeList = {
     id: string;
@@ -14,9 +12,6 @@ interface Props {
 
 const SidebarDragDrop = ({ containerSize }: Props) => {
 
-    // const handleDragStart = (event: React.DragEvent<HTMLDivElement>, shape: { type: string }) => {
-    //     event.dataTransfer.setData("shape", shape.type);
-    // };
     // const { addShape, clearShape } = useShapeAtom();
     const { addShape } = useShapeAtom();
 
@@ -27,15 +22,21 @@ const SidebarDragDrop = ({ containerSize }: Props) => {
                 type: id,
                 x: containerSize.width / 2,
                 y: containerSize.height / 2,
+                radius: 50,
+                radiusX: 100,
+                radiusY: 50, 
             })
         } else {
             addShape({
                 type: id,
                 x: containerSize.width / 2 - 50,
                 y: containerSize.height / 2 - 25,
+                height: 50,
+                width: 100,
             })
 
         }
+
     }
 
     const shapes: ShapeList[] = [
@@ -46,7 +47,6 @@ const SidebarDragDrop = ({ containerSize }: Props) => {
 
     return (
         <div className="p-4 h-screen max-w-sm w-full bg-gray-800 text-gray-400 flex flex-col space-y-4">
-            {/* <Input /> */}
             <ScrollArea className="overflow-y-auto">
                 <div className="grid grid-cols-2 gap-2">
                     {
