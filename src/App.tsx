@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import Canvas from "./components/layouts/Canva";
+import Canvas from "./components/Canva";
 import MiniSidebar from "./components/layouts/MiniSidebar";
 import Navbar from "./components/layouts/Navbar";
 import Sidebar from "./components/layouts/Sidebar";
