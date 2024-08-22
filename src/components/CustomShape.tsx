@@ -4,14 +4,13 @@ import { Circle, Rect, Ellipse } from 'react-konva';
 
 interface Props {
     index:number;
-    shape: ShapeType;
+    shape: ShapeType
 }
 
-export const CustomShape = ({ shape, index }: Props) => {
+ const CustomShape = ({ shape, index }: Props) => {
 
     const {selectShape, editShape } = useShapeAtom();
     const commonProps = {
-      key: shape.id,
       id: shape.id,
       x: shape.x,
       y: shape.y,
@@ -35,3 +34,5 @@ export const CustomShape = ({ shape, index }: Props) => {
         return null;
     }
   };
+
+  export default CustomShape;

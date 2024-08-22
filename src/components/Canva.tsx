@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Stage, Layer, Transformer } from "react-konva";
 import Konva from "konva";
 import useShapeAtom from "@/hooks/useShapeAtom";
-import { CustomShape } from "./CustomShape";
+import CustomShape from "./CustomShape";
 
 interface Props {
     containerSize: { width: number; height: number };
@@ -46,16 +46,13 @@ const Canvas = ({ id, containerRef, containerSize }: Props) => {
                 width = {containerSize.width}
                 height = {containerSize.height}
                 onMouseDown = {(e) => {
-                    // Deselect when clicked on empty area
-                    if (e.target === e.target.getStage()) {
-                        selectShape(null);
-                    }
+                    if (e.target === e.target.getStage()) selectShape(null);
                 }}
             >
                 <Layer>
                 {shapes.map((shape, index) => (
                     <CustomShape
-                        key={shape.id}
+                        key={index}
                         shape={shape}
                         index={index}
                     />
