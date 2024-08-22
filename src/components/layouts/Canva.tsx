@@ -10,22 +10,9 @@ interface Props {
 }
 
 const Canvas = ({ containerSize, containerRef, id }: Props) => {
-    // const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
     const stageRef = useRef<Konva.Stage>(null);
     const transformerRef = useRef<Konva.Transformer>(null);
-    const { shapes, selectShape, selectedShapeId, editShape } = useShapeAtom();
-
-
-    // const handleSelect = (id: string) => {
-    //     setSelectedShapeId(id);
-    // };
-
-    // const handleDelete = () => {
-    //     if (selectedShapeId) {
-    //         setShapes(shapes.filter(shape => shape.id !== selectedShapeId));
-    //         setSelectedShapeId(null);
-    //     }
-    // };
+    const { shapes, selectedShapeId, selectShape, editShape } = useShapeAtom();
 
     React.useEffect(() => {
         const transformer = transformerRef.current;
@@ -47,23 +34,16 @@ const Canvas = ({ containerSize, containerRef, id }: Props) => {
     return (
         <div
             ref={containerRef}
-            // onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
-            className="max-w-2xl w-full bg-white h-full"
+            className="max-w-3xl w-full h-full"
         >
             <Stage
-                ref={stageRef}
-                className="bg-indigo-100"
+            ref={stageRef}
+                className="bg-slate-100 "
                 id = {id}
                 width = {containerSize.width}
-                height = {window.innerHeight}
+                height = {containerSize.height}
                 onMouseDown = {(e) => {
-                    // Deselect when clicked on empty area
-                    //     if (e.target === e.target.getStage()) {
-                    //         setSelectedShapeId(null);
-                    //     }
-                    // }}
-
                     // Deselect when clicked on empty area
                     if (e.target === e.target.getStage()) {
                         selectShape(null);
@@ -137,7 +117,6 @@ const Canvas = ({ containerSize, containerRef, id }: Props) => {
                             ref={transformerRef}
                             rotateEnabled={true}
                             flipEnabled={true}
-                        // onClick={handleDelete}
                         />
                     )}
                 </Layer>

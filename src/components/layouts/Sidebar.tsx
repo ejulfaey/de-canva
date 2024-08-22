@@ -10,7 +10,7 @@ interface Props {
     containerSize: { width: number; height: number }
 }
 
-const SidebarDragDrop = ({ containerSize }: Props) => {
+const Sidebar = ({ containerSize }: Props) => {
 
     // const { addShape, clearShape } = useShapeAtom();
     const { addShape } = useShapeAtom();
@@ -46,16 +46,14 @@ const SidebarDragDrop = ({ containerSize }: Props) => {
     ];
 
     return (
-        <div className="p-4 h-screen max-w-sm w-full bg-gray-800 text-gray-400 flex flex-col space-y-4">
-            <ScrollArea className="overflow-y-auto">
+        <div className="h-full max-w-sm w-full bg-gray-800 text-gray-400 flex flex-col space-y-4">
+            <ScrollArea className="p-4 overflow-y-auto">
                 <div className="grid grid-cols-2 gap-2">
                     {
                         shapes.map((shape) => (
                             <div
                                 key={shape.id}
                                 className="w-full h-44 flex items-center justify-center border border-gray-500 rounded cursor-pointer"
-                                // draggable
-                                // onDragStart={(e) => handleDragStart(e, shape)}
                                 onClick={() => handleClick(shape)}
                             >
                                 {shape.label}
@@ -69,4 +67,4 @@ const SidebarDragDrop = ({ containerSize }: Props) => {
     );
 };
 
-export default SidebarDragDrop;
+export default Sidebar;
