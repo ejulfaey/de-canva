@@ -6,9 +6,10 @@ import useShapeAtom from "@/hooks/useShapeAtom";
 interface Props {
     containerSize: { width: number; height: number };
     containerRef: React.RefObject<HTMLDivElement>;
+    id: string;
 }
 
-const Canvas = ({ containerSize, containerRef }: Props) => {
+const Canvas = ({ containerSize, containerRef, id }: Props) => {
     // const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
     const stageRef = useRef<Konva.Stage>(null);
     const transformerRef = useRef<Konva.Transformer>(null);
@@ -53,9 +54,10 @@ const Canvas = ({ containerSize, containerRef }: Props) => {
             <Stage
                 ref={stageRef}
                 className="bg-indigo-100"
-                width={containerSize.width}
-                height={window.innerHeight}
-                onMouseDown={(e) => {
+                id = {id}
+                width = {containerSize.width}
+                height = {window.innerHeight}
+                onMouseDown = {(e) => {
                     // Deselect when clicked on empty area
                     //     if (e.target === e.target.getStage()) {
                     //         setSelectedShapeId(null);

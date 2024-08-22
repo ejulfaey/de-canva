@@ -50,7 +50,7 @@ const App = () => {
         <SidebarDragDrop containerSize={containerSize} />
 
         <div className="flex-1 flex flex-col bg-gray-100 justify-center items-center w-full h-full">
-          <Canvas containerRef={containerRef} containerSize={containerSize} />
+          <Canvas id="konvas-id" containerRef={containerRef} containerSize={containerSize} />
         </div>
       </div>
     </div>

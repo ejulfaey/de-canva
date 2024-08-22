@@ -1,6 +1,8 @@
 import { ShapeAtom, ShapeType } from "@/lib/atom-service";
 import { useAtom } from "jotai/react";
 import { atom } from 'jotai';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 const selectedShapeIdAtom = atom<string | null>(null);
 
@@ -45,19 +47,19 @@ const useShapeAtom = () => {
             // Create a new array with the updated shape
             const updatedShapes = [...prevShapes];
             const shapeToUpdate = updatedShapes[index];
-    
+
             if (shapeToUpdate) {
                 updatedShapes[index] = {
                     type: shapeToUpdate.type,
                     ...options,
                 };
             }
-            
+
             console.log(updatedShapes[index], updatedShapes[index]?.width)
             return updatedShapes;
         });
     };
-    
+
 
 
     const selectShape = (id: string | null) => {
@@ -69,6 +71,79 @@ const useShapeAtom = () => {
         setSelectedShapeId(null);
     }
 
+    const moveForward = () => {
+        if (!selectedShapeId) return;
+        const index = shapes.findIndex(shape => shape.id === selectedShapeId);
+        // if (index < shapes.length - 1) {
+        //     const newShapes = [...shapes];
+        //     [newShapes[index], newShapes[index + 1]] = [newShapes[index + 1], newShapes[index]];
+        //     setShapes(newShapes);
+        // }
+
+        if (index >= 0 && index < shapes.length - 1) {
+            const newShapes = [...shapes];
+            const [movedShape] = newShapes.splice(index, 1);
+            newShapes.push(movedShape);
+            setShapes(newShapes);
+        }
+    };
+
+    const bringBackward = () => {
+        if (!selectedShapeId) return;
+        const index = shapes.findIndex(shape => shape.id === selectedShapeId);
+        // if (index > 0) {
+        //     const newShapes = [...shapes];
+        //     [newShapes[index], newShapes[index - 1]] = [newShapes[index - 1], newShapes[index]];
+        //     setShapes(newShapes);
+        // }
+        if (index > 0) {
+            const newShapes = [...shapes];
+            const [movedShape] = newShapes.splice(index, 1);
+            newShapes.unshift(movedShape);
+            setShapes(newShapes);
+        }
+    };
+
+    const exportPNG = (id: string) => {
+        const stage = document.getElementById(id) as HTMLDivElement | null;
+        if (stage) {
+            const stageCanvas = stage.querySelector("canvas") as HTMLCanvasElement;
+            if (stageCanvas) {
+                const dataURL = stageCanvas.toDataURL();
+                const link = document.createElement("a");
+                link.href = dataURL;
+                link.download = "canvas-export.png";
+                link.click();
+            } else {
+                console.error("Canvas element not found within the stage");
+            }
+        } else {
+            console.error("Stage element not found");
+        }
+    }
+
+    const exportPDF = (id: string) => {
+        const stage = document.getElementById(id) as HTMLDivElement | null;
+
+        if(!stage)
+        {
+            console.error('No error found with ID ${canvasId}');
+            return;
+        }
+
+        html2canvas(stage).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('portrait', 'mm', [210, 297]);
+            pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+            pdf.save('canvas-export.pdf');
+        }).catch((error) => {
+            console.error('Failed to export PDF:', error);
+        });
+
+    }
+
+
+
 
     return {
         shapes,
@@ -78,6 +153,10 @@ const useShapeAtom = () => {
         selectShape,
         selectedShapeId,
         clearShapes,
+        moveForward,
+        bringBackward,
+        exportPNG,
+        exportPDF,
     }
 }
 

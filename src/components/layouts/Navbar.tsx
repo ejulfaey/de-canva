@@ -1,10 +1,28 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import useShapeAtom from "@/hooks/useShapeAtom";
-import { Redo, Trash, Undo } from "lucide-react";
+import { BringToFrontIcon, Download, Redo, SendToBackIcon, Trash, Trash2, Undo } from "lucide-react";
+import { Button } from "../ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+
 
 const Navbar = () => {
 
-    const { clearShapes, selectedShapeId, removeShape } = useShapeAtom();
+    const { clearShapes, selectedShapeId, removeShape, moveForward, bringBackward, exportPNG, exportPDF } = useShapeAtom();
+
+    const handleExportPNG = () => {
+        exportPNG('konvas-id');
+    };
+
+    const handleExportPDF = () => {
+        exportPDF('konvas-id');
+    };
 
     return (
         <div className="px-4 py-2 bg-primary text-primary-foreground">
@@ -14,13 +32,63 @@ const Navbar = () => {
                     <div className="inline-flex items-center gap-x-2 xl:gap-x-4">
                         <Undo size={20} />
                         <Redo size={20} />
-                        <button onClick={() => clearShapes()} className="bg-red-400 text-white p-2 rounded">
+                        <Button onClick={() => clearShapes()} className="bg-red-400 flex gap-2 items-center p-2 rounded">
+                            <Trash2 />
                             Clear All Shapes
-                        </button>
-                        {selectedShapeId && <Trash onClick={() => removeShape(selectedShapeId)} size={20} className="cursor-pointer" />}
+                        </Button>
+                        {selectedShapeId && (
+                            <>
+                                <Button onClick={moveForward} className="bg-slate-400 flex gap-2 items-center p-2 rounded">
+                                    <BringToFrontIcon size={20} />
+                                    Move Forward
+                                </Button>
+                                <Button onClick={bringBackward} className="bg-slate-400 flex gap-2 items-center p-2 rounded">
+                                    <SendToBackIcon size={20} />
+                                    Bring Backward
+                                </Button>
+                                <Button onClick={() => removeShape(selectedShapeId)} className="bg-red-400 flex gap-2 items-center p-2 rounded">
+                                    <Trash size={20} />
+                                    Remove Selected Shapes
+                                </Button>
+
+                            </>
+                        )}
+                        {/* <Button onClick={handleExportPNG} className="flex items-center gap-2">
+                            <Download size={20} />
+                            Export PNG
+                        </Button>
+                        <Button onClick={handleExportPDF} className="flex items-center gap-2">
+                            <Download size={20} />
+                            Export PDF
+                        </Button> */}
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className="p-2 bg-green-500 rounded flex items-center gap-2 focus:ring-0 focus-visible:outline-none">
+                                <Download size={20} />
+                                Export
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start">
+                                <DropdownMenuLabel>Export As</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>
+                                    <Button onClick={handleExportPNG} className="flex items-center gap-2 w-full">
+                                        <Download size={20} />
+                                        PNG
+                                    </Button>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Button onClick={handleExportPDF} className="flex items-center gap-2 w-full">
+                                        <Download size={20} />
+                                        PDF
+                                    </Button>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
                     </div>
                 </div>
                 <div className="inline-flex items-center">
+
                     <Avatar className="bg-primary">
                         <AvatarFallback className="w-full text-primary-foreground flex justify-center items-center">DF</AvatarFallback>
                     </Avatar>
