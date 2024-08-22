@@ -9,7 +9,8 @@ interface Props {
     id: string;
 }
 
-const Canvas = ({ containerSize, containerRef, id }: Props) => {
+const Canvas = ({ id, containerRef, containerSize }: Props) => {
+
     const stageRef = useRef<Konva.Stage>(null);
     const transformerRef = useRef<Konva.Transformer>(null);
     const { shapes, selectedShapeId, selectShape, editShape } = useShapeAtom();
@@ -35,10 +36,10 @@ const Canvas = ({ containerSize, containerRef, id }: Props) => {
         <div
             ref={containerRef}
             onDragOver={(e) => e.preventDefault()}
-            className="max-w-3xl w-full h-full"
+            className="flex-1 flex items-center max-w-3xl w-full h-full"
         >
             <Stage
-            ref={stageRef}
+                ref={stageRef}
                 className="bg-slate-100 "
                 id = {id}
                 width = {containerSize.width}

@@ -12,7 +12,6 @@ interface Props {
 
 const Sidebar = ({ containerSize }: Props) => {
 
-    // const { addShape, clearShape } = useShapeAtom();
     const { addShape } = useShapeAtom();
 
     const handleClick = ({ id }: ShapeList) => {
@@ -34,9 +33,7 @@ const Sidebar = ({ containerSize }: Props) => {
                 height: 50,
                 width: 100,
             })
-
         }
-
     }
 
     const shapes: ShapeList[] = [

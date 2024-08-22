@@ -21,11 +21,9 @@ const App = () => {
 
       if (containerRef.current) {
         const { offsetWidth, offsetHeight, offsetTop} = containerRef.current;
-        console.log('update: ', offsetWidth, offsetHeight - offsetTop);
-        
         setContainerSize({
           width: offsetWidth,
-          height: offsetHeight
+          height: offsetHeight - offsetTop
         })
       }
     };
@@ -44,11 +42,9 @@ const App = () => {
       <div className="flex-1 flex overflow-y-auto">
         <MiniSidebar />
         <Sidebar containerSize={containerSize} />
-        <div className="flex-1 flex flex-col bg-gray-300">
+        <div className="flex-1 flex flex-col items-center bg-gray-300">
           <ToolBar />
-          <div className="flex-1 flex flex-col items-center">
-            <Canvas id="konvas-id" containerRef={containerRef} containerSize={containerSize} />
-          </div>
+          <Canvas id="konvas-id" containerRef={containerRef} containerSize={containerSize} />
         </div>
       </div>
     </div>

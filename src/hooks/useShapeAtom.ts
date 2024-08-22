@@ -190,20 +190,30 @@ const useShapeAtom = () => {
 
     }
 
+    const exportAs = (type: string, id: string) => {
+        switch(type) {
+            case 'jpg': exportJPG(id);
+            break;
+            case 'pdf': exportPDF(id);
+            break;
+            default: exportPNG(id);
+            break;
+        }
+        return;
+    }
+
 
     return {
         shapes,
+        selectedShapeId,
         addShape,
         removeShape,
         editShape,
         selectShape,
-        selectedShapeId,
         clearShapes,
         moveForward,
         bringBackward,
-        exportPNG,
-        exportJPG,
-        exportPDF,
+        exportAs
     }
 }
 

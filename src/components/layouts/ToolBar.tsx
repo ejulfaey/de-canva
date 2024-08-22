@@ -23,13 +23,11 @@ export const ToolBar = () => {
     removeShape,
     moveForward,
     bringBackward,
-    exportPNG,
-    exportJPG,
-    exportPDF,
+    exportAs,
   } = useShapeAtom();
 
   return (
-    <div className="px-4 py-2 bg-white flex justify-between">
+    <div className="px-4 py-2 w-full bg-white flex justify-between">
       <div className="flex gap-x-2">
         {selectedShapeId && (
           <>
@@ -59,31 +57,31 @@ export const ToolBar = () => {
               <Download />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start">
+          <DropdownMenuContent align="end" className="w-64">
             <DropdownMenuLabel className="text-base">
               Export As
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Button
-                onClick={() => exportJPG("konvas-id")}
-                className="flex items-center gap-2 w-full"
+                onClick={() => exportAs("png", "konvas-id")}
+                className="w-full"
               >
                 JPG
               </Button>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Button
-                onClick={() => exportPNG("konvas-id")}
-                className="flex items-center gap-2 w-full"
+                onClick={() => exportAs("jpg", "konvas-id")}
+                className="w-full"
               >
                 PNG
               </Button>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Button
-                onClick={() => exportPDF("konvas-id")}
-                className="flex items-center gap-2 w-full"
+                onClick={() => exportAs("pdf", "konvas-id")}
+                className="w-full"
               >
                 PDF
               </Button>
