@@ -18,8 +18,8 @@ import {
 
 export const ToolBar = () => {
   const {
+    selectedId,
     clearShapes,
-    selectedShapeId,
     removeShape,
     moveForward,
     bringBackward,
@@ -29,7 +29,7 @@ export const ToolBar = () => {
   return (
     <div className="px-4 py-2 w-full bg-white flex justify-between">
       <div className="flex gap-x-2">
-        {selectedShapeId && (
+        {selectedId && (
           <>
             <Button onClick={moveForward} size="icon" variant="outline">
               <BringToFrontIcon />
@@ -38,7 +38,7 @@ export const ToolBar = () => {
               <SendToBackIcon />
             </Button>
             <Button
-              onClick={() => removeShape(selectedShapeId)}
+              onClick={removeShape}
               size="icon"
               variant="outline"
             >
