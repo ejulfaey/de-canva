@@ -104,6 +104,55 @@ const useShapeAtom = () => {
         }
     };
 
+    const exportJPG = (id: string) => {
+        const stage = document.getElementById(id) as HTMLDivElement | null;
+        if (stage) {
+            const stageCanvas = stage.querySelector("canvas") as HTMLCanvasElement;
+            if (stageCanvas) {
+                const context = stageCanvas.getContext("2d");
+                if (context) {
+                    // Get the computed background color from the stage element
+                    const computedStyle = getComputedStyle(stage);
+                    const bgColor = computedStyle.backgroundColor || "white";
+
+                    // Create a temporary canvas to merge the background color
+                    const tempCanvas = document.createElement("canvas");
+                    const tempContext = tempCanvas.getContext("2d");
+
+                    if (tempContext) {
+                        tempCanvas.width = stageCanvas.width;
+                        tempCanvas.height = stageCanvas.height;
+
+                        // Fill with background color
+                        tempContext.fillStyle = bgColor;
+                        tempContext.fillRect(0, 0, stageCanvas.width, stageCanvas.height);
+
+                        // Draw the original canvas on top of the background
+                        tempContext.drawImage(stageCanvas, 0, 0);
+
+                        // Get the data URL from the temporary canvas
+                        const dataURL = tempCanvas.toDataURL("image/jpeg");
+
+                        // Create a link to download the image
+                        const link = document.createElement("a");
+                        link.href = dataURL;
+                        link.download = "canvas-export.jpg";
+                        link.click();
+                    } else {
+                        console.error("Unable to get context for temporary canvas");
+                    }
+                } else {
+                    console.error("Unable to get 2D context from the canvas");
+                }
+            } else {
+                console.error("Canvas element not found within the stage");
+            }
+        } else {
+            console.error("Stage element not found");
+        }
+    };
+
+
     const exportPNG = (id: string) => {
         const stage = document.getElementById(id) as HTMLDivElement | null;
         if (stage) {
@@ -125,8 +174,7 @@ const useShapeAtom = () => {
     const exportPDF = (id: string) => {
         const stage = document.getElementById(id) as HTMLDivElement | null;
 
-        if(!stage)
-        {
+        if (!stage) {
             console.error('No error found with ID ${canvasId}');
             return;
         }
@@ -143,8 +191,6 @@ const useShapeAtom = () => {
     }
 
 
-
-
     return {
         shapes,
         addShape,
@@ -156,6 +202,7 @@ const useShapeAtom = () => {
         moveForward,
         bringBackward,
         exportPNG,
+        exportJPG,
         exportPDF,
     }
 }

@@ -14,10 +14,14 @@ import {
 
 const Navbar = () => {
 
-    const { clearShapes, selectedShapeId, removeShape, moveForward, bringBackward, exportPNG, exportPDF } = useShapeAtom();
+    const { clearShapes, selectedShapeId, removeShape, moveForward, bringBackward, exportPNG, exportJPG, exportPDF } = useShapeAtom();
 
     const handleExportPNG = () => {
         exportPNG('konvas-id');
+    };
+
+    const handleExportJPG = () => {
+        exportJPG('konvas-id');
     };
 
     const handleExportPDF = () => {
@@ -68,8 +72,14 @@ const Navbar = () => {
                                 Export
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="start">
-                                <DropdownMenuLabel>Export As</DropdownMenuLabel>
+                                <DropdownMenuLabel className="text-base">Export As</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
+                                <DropdownMenuItem>
+                                    <Button onClick={handleExportJPG} className="flex items-center gap-2 w-full">
+                                        <Download size={20} />
+                                        JPG
+                                    </Button>
+                                </DropdownMenuItem>
                                 <DropdownMenuItem>
                                     <Button onClick={handleExportPNG} className="flex items-center gap-2 w-full">
                                         <Download size={20} />
