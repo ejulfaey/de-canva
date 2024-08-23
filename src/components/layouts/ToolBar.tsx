@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { ColorPicker } from "../ColorPicker";
 
 export const ToolBar = () => {
   const {
@@ -44,6 +45,7 @@ export const ToolBar = () => {
             >
               <X />
             </Button>
+            <ColorPicker />
           </>
         )}
       </div>
@@ -67,7 +69,7 @@ export const ToolBar = () => {
                 onClick={() => exportAs("png", "konvas-id")}
                 className="w-full"
               >
-                JPG
+                PNG
               </Button>
             </DropdownMenuItem>
             <DropdownMenuItem>
@@ -75,7 +77,7 @@ export const ToolBar = () => {
                 onClick={() => exportAs("jpg", "konvas-id")}
                 className="w-full"
               >
-                PNG
+                JPG
               </Button>
             </DropdownMenuItem>
             <DropdownMenuItem>

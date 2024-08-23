@@ -10,6 +10,8 @@ const useShapeAtom = () => {
 
   const selectShape = (id: string | null) => setSelectedId(id);
 
+  const currentShape: ShapeType | null = selectedId ? shapes.find(shape => shape.id === selectedId) : null;
+
   const addShape = (shape: ShapeType) =>
     setShapes([
       ...shapes,
@@ -175,9 +177,18 @@ const useShapeAtom = () => {
     return;
   };
 
+  const changeColor = (color: string) =>
+    setShapes((prevShapes) => {
+      return prevShapes.map(shape =>
+        shape.id === selectedId ? { ...shape, fill: color } : shape
+      );
+    });
+
+
   return {
     shapes,
     selectedId,
+    currentShape,
     addShape,
     removeShape,
     editShape,
@@ -186,6 +197,7 @@ const useShapeAtom = () => {
     moveForward,
     bringBackward,
     exportAs,
+    changeColor
   };
 };
 

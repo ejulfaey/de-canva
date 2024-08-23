@@ -5,37 +5,36 @@ import useShapeAtom from "@/hooks/useShapeAtom";
 type ShapeList = {
   id: string;
   label: string;
+  fill: string,
 };
 
 const Sidebar = () => {
   const { addShape } = useShapeAtom();
   const { containerSize } = useContainer();
 
-  const handleClick = ({ id }: ShapeList) => {
-    if (id === "circle" || id === "ellipse") {
-      addShape({
-        type: id,
-        x: containerSize.width / 2,
-        y: containerSize.height / 2,
-        radius: 50,
-        radiusX: 100,
-        radiusY: 50,
-      });
-    } else {
-      addShape({
-        type: id,
-        x: containerSize.width / 2 - 50,
-        y: containerSize.height / 2 - 25,
-        height: 50,
-        width: 100,
-      });
-    }
+  const handleClick = ({ id, fill }: ShapeList) => {
+    const commonProps = {
+      type: id,
+      x: containerSize.width / 2,
+      y: containerSize.height / 2,
+      fill,
+      stroke: '#252c36',
+      strokeWidth: 1.5,
+    };
+  
+    const shapeProps = 
+      id === "circle" || id === "ellipse" 
+        ? { radius: 50, radiusX: 100, radiusY: 50 }
+        : { x: commonProps.x - 50, y: commonProps.y - 25, height: 50, width: 100 };
+  
+    addShape({ ...commonProps, ...shapeProps });
   };
+  
 
   const shapes: ShapeList[] = [
-    { id: "circle", label: "Circle" },
-    { id: "rect", label: "Rectangle" },
-    { id: "ellipse", label: "Ellipse" },
+    { id: "circle", label: "Circle", fill: "#fff" },
+    { id: "rect", label: "Rectangle", fill: "#fff" },
+    { id: "ellipse", label: "Ellipse", fill: "#fff" },
   ];
 
   return (

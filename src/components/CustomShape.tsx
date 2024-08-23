@@ -13,9 +13,12 @@ const CustomShape = ({ shape, index }: Props) => {
     id: shape.id,
     x: shape.x,
     y: shape.y,
+    fill: shape?.fill as string,
     scaleX: shape?.scaleX as number,
     scaleY: shape?.scaleY as number,
     rotation: shape?.rotation as number,
+    stroke: shape?.stroke as string,
+    strokeWidth: shape?.strokeWidth as number,
     draggable: true,
     onClick: () => shape.id && selectShape(shape.id),
     onDragEnd: (e: any) => editShape(index, e.target.attrs),
@@ -25,7 +28,7 @@ const CustomShape = ({ shape, index }: Props) => {
   switch (shape.type) {
     case "circle":
       return (
-        <Circle {...commonProps} radius={shape.radius as number} fill="blue" />
+        <Circle {...commonProps} radius={shape.radius as number} />
       );
     case "rect":
       return (
@@ -33,7 +36,7 @@ const CustomShape = ({ shape, index }: Props) => {
           {...commonProps}
           width={shape.width as number}
           height={shape.height as number}
-          fill="red"
+          // fill={shape.fill as string}
         />
       );
     case "ellipse":
@@ -42,7 +45,7 @@ const CustomShape = ({ shape, index }: Props) => {
           {...commonProps}
           radiusX={shape.radiusX as number}
           radiusY={shape.radiusY as number}
-          fill="green"
+          // fill={shape.fill as string}
         />
       );
     default:
