@@ -10,7 +10,7 @@ const useShapeAtom = () => {
 
   const selectShape = (id: string | null) => setSelectedId(id);
 
-  const currentShape: ShapeType | null = selectedId ? shapes.find(shape => shape.id === selectedId) : null;
+  const currentShape: ShapeType | undefined = selectedId ? shapes.find(shape => shape.id === selectedId) : undefined;
 
   const addShape = (shape: ShapeType) =>
     setShapes([
