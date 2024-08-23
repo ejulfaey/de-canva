@@ -1,18 +1,19 @@
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
 import useShapeAtom from "@/hooks/useShapeAtom"
-import { Palette } from "lucide-react"
+import { Palette } from "lucide-react";
+import { TwitterPicker } from 'react-color';
 
 export function ColorPicker() {
 
     const { currentShape, changeColor } = useShapeAtom();
-
-    const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => changeColor(e.target.value);
+    const handleColorChange = (color: any) => {
+        changeColor(color.hex);
+    }
 
     return (
         <Popover>
@@ -21,12 +22,11 @@ export function ColorPicker() {
                     <Palette />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent align="start">
-                <Input
-                    type="color"
-                    defaultValue={currentShape?.fill as string}
-                    onChange={handleColorChange}
-                    className="p-1 w-10 h-10 rounded-full"
+            <PopoverContent align="start" className="p-0 bg-transparent border-none shadow-none">
+                <TwitterPicker
+                    color={currentShape?.fill as string}
+                    onChangeComplete={handleColorChange}
+
                 />
             </PopoverContent>
         </Popover>
