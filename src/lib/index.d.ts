@@ -3,5 +3,13 @@ export type ShapeType = {
     id?: string;
     x?: number;
     y?: number;
-    [key: string]: string | number | undefined;
+    draggable?: boolean;
+    text?: string;
+    fontSize?: number;
+    fontFamily?: string;
+    fontSize?: string;
+    align?: string;
+    width?: number;
+    height?: number;
+    [key: string]: string | number | boolean | undefined;
 };

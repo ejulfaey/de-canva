@@ -1,6 +1,7 @@
 import useShapeAtom from "@/hooks/useShapeAtom";
 import { ShapeType } from "@/lib";
 import { Circle, Rect, Ellipse } from "react-konva";
+import EditableText, { } from "./EditableText";
 
 interface Props {
   index: number;
@@ -8,7 +9,9 @@ interface Props {
 }
 
 const CustomShape = ({ shape, index }: Props) => {
+
   const { selectShape, editShape } = useShapeAtom();
+
   const commonProps = {
     id: shape.id,
     x: shape.x,
@@ -25,6 +28,7 @@ const CustomShape = ({ shape, index }: Props) => {
     onTransformEnd: (e: any) => editShape(index, e.target.attrs),
   };
 
+
   switch (shape.type) {
     case "circle":
       return (
@@ -36,7 +40,7 @@ const CustomShape = ({ shape, index }: Props) => {
           {...commonProps}
           width={shape.width as number}
           height={shape.height as number}
-          // fill={shape.fill as string}
+        // fill={shape.fill as string}
         />
       );
     case "ellipse":
@@ -45,9 +49,12 @@ const CustomShape = ({ shape, index }: Props) => {
           {...commonProps}
           radiusX={shape.radiusX as number}
           radiusY={shape.radiusY as number}
-          // fill={shape.fill as string}
+        // fill={shape.fill as string}
         />
       );
+
+    case "add-text":
+      return <EditableText />;
     default:
       return null;
   }

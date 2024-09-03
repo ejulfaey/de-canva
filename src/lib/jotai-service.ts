@@ -4,6 +4,7 @@ import { ShapeType } from ".";
 import { MutableRefObject } from "react";
 
 export const selectedShape = atom<string | null>(null);
+export const selectedText = atom<string | null>(null);
 export const ShapeAtom = atomWithStorage<ShapeType[]>("shapes", []);
 export const containerRefAtom = atom<MutableRefObject<HTMLDivElement | null>>({ current: null });
 export const containerSizeAtom = atom<{ width: number; height: number }>({

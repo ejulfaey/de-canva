@@ -1,0 +1,75 @@
+import { ScrollArea } from "../ui/scroll-area";
+import useShapeAtom from "@/hooks/useShapeAtom";
+
+type ShapeList = {
+    id: string;
+    label: string;
+    fill: string;
+}
+
+interface Props {
+    containerSize: { width: number; height: number }
+}
+
+const SidebarDragDrop = ({ containerSize }: Props) => {
+
+    // const { addShape, clearShape } = useShapeAtom();
+    const { addShape } = useShapeAtom();
+
+    const handleClick = ({ id, fill }: ShapeList) => {
+
+        if (id === 'circle' || id === 'ellipse') {
+            addShape({
+                type: id,
+                x: containerSize.width / 2,
+                y: containerSize.height / 2,
+                radius: 50,
+                radiusX: 100,
+                radiusY: 50,
+                fill, 
+            })
+        } else {
+            addShape({
+                type: id,
+                x: containerSize.width / 2 - 50,
+                y: containerSize.height / 2 - 25,
+                height: 50,
+                width: 100,
+                fill
+            })
+
+        }
+
+    }
+
+    const shapes: ShapeList[] = [
+        { id: "circle", label: 'Circle', fill: 'blue' },
+        { id: "rect", label: 'Rectangle', fill: 'red' },
+        { id: "ellipse", label: 'Ellipse', fill: 'green' },
+    ];
+
+    return (
+        <div className="p-4 h-screen max-w-sm w-full bg-gray-800 text-gray-400 flex flex-col space-y-4">
+            <ScrollArea className="overflow-y-auto">
+                <div className="grid grid-cols-2 gap-2">
+                    {
+                        shapes.map((shape) => (
+                            <div
+                                key={shape.id}
+                                className="w-full h-44 flex items-center justify-center border border-gray-500 rounded cursor-pointer"
+                                // draggable
+                                // onDragStart={(e) => handleDragStart(e, shape)}
+                                onClick={() => handleClick(shape)}
+                            >
+                                {shape.label}
+                            </div>
+                        ))
+                    }
+                </div>
+            </ScrollArea>
+        </div>
+
+    );
+};
+
+export default SidebarDragDrop;

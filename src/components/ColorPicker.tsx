@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover"
 import useShapeAtom from "@/hooks/useShapeAtom"
 import { Palette } from "lucide-react";
-import { TwitterPicker } from 'react-color';
+import { ChromePicker, TwitterPicker } from 'react-color';
 
 export function ColorPicker() {
 
@@ -23,7 +23,12 @@ export function ColorPicker() {
                 </Button>
             </PopoverTrigger>
             <PopoverContent align="start" className="p-0 bg-transparent border-none shadow-none">
-                <TwitterPicker
+                {/* <TwitterPicker
+                    color={currentShape?.fill as string}
+                    onChangeComplete={handleColorChange}
+
+                /> */}
+                 <ChromePicker
                     color={currentShape?.fill as string}
                     onChangeComplete={handleColorChange}
 

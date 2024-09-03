@@ -1,4 +1,4 @@
-import { selectedShape, ShapeAtom } from "@/lib/jotai-service";
+import { selectedShape, selectedText, ShapeAtom } from "@/lib/jotai-service";
 import { useAtom } from "jotai/react";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
@@ -7,6 +7,7 @@ import { ShapeType } from "@/lib";
 const useShapeAtom = () => {
   const [shapes, setShapes] = useAtom(ShapeAtom);
   const [selectedId, setSelectedId] = useAtom(selectedShape);
+  const [editTextId, setEditTextId] = useAtom(selectedText);
 
   const selectShape = (id: string | null) => setSelectedId(id);
 
@@ -177,12 +178,47 @@ const useShapeAtom = () => {
     return;
   };
 
-  const changeColor = (color: string) =>
+  const changeColor = (color: string) => {
     setShapes((prevShapes) => {
       return prevShapes.map(shape =>
         shape.id === selectedId ? { ...shape, fill: color } : shape
       );
     });
+  };
+
+
+  const textDoubleClick = (id: string) => {
+    setEditTextId(id);
+  };
+
+  const editTextChange = (id: string, newText: string) => {
+    setShapes((prev) => {
+      const index = prev.findIndex(shape => shape.id === id); // Find the index of the shape by ID
+      if (index === -1) return prev; // Return the previous state if the shape is not found
+  
+      const updatedShapes = [...prev];
+      updatedShapes[index] = {
+        ...updatedShapes[index],
+        text: newText, // Update the text property
+      };
+      return updatedShapes;
+    });
+  
+    setEditTextId(null); // Clear the editTextId after updating
+  };
+  
+  
+
+  // const editTextChange = (id: string, newText: string) => {
+  //   const numericId = Number(id);
+  //   if (!isNaN(numericId)) {
+  //     editShape(numericId, { text: newText });
+  //   } else {
+  //     console.error('Invalid ID');
+  //   }
+  //   setEditTextId(null);
+  // };
+
 
 
   return {
@@ -197,7 +233,10 @@ const useShapeAtom = () => {
     moveForward,
     bringBackward,
     exportAs,
-    changeColor
+    changeColor,
+    textDoubleClick,
+    editTextChange,
+
   };
 };
 
